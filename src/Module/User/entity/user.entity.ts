@@ -1,15 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { UserStatus } from '../../Enum/UserStatus';
-import { Role } from '../Role/role.entity';
-import { Wallet } from '../Wallet/wallet.entity';
-import { Profile } from '../Profile/profile.entity';
-
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  OneToMany,
+} from 'typeorm';
+import { UserStatus } from '../enums/UserStatus';
+import { Role } from '../../Role/entity/role.entity';
+import { Wallet } from '../../Wallet/wallet.entity';
+import { Profile } from '../../Profile/entity/profile.entity';
+import { BaseEntity } from '../../Base/base.entity';
 
 @Entity('user')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class User extends BaseEntity {
   @Column()
   firstName: string;
 
@@ -22,7 +25,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ unique: true })
   phone: string;
 
   @Column('jsonb')
@@ -44,18 +47,6 @@ export class User {
   @Column()
   sms_otp: boolean;
 
-  @Column('uuid')
-  wallet_id: string;
-
-  @Column('uuid')
-  profile_id: string;
-
-  @Column('uuid')
-  role_id: string;
-
-  @Column('int')
-  referral_code: number;
-
   @OneToOne(() => Profile, (profile) => profile.user)
   profile: Profile;
 
@@ -64,4 +55,7 @@ export class User {
 
   @OneToOne(() => Role, (role) => role.user)
   role: Role;
+
+  // @OneToMany(()=> Store, (store)=> store.user)
+  // store: Store
 }
