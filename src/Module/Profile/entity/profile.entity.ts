@@ -1,7 +1,8 @@
-import { IsOptional } from 'class-validator';
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { IsAlphanumeric, IsNumber, IsOptional } from 'class-validator';
+import { Entity, Column, OneToOne, OneToMany } from 'typeorm';
 import { User } from '../../User/entity/user.entity';
 import { BaseEntity } from '../../Base/base.entity';
+import { Interest } from '../../Interest/entity/interest.entity';
 
 @Entity('profile')
 export class Profile extends BaseEntity {
@@ -17,7 +18,8 @@ export class Profile extends BaseEntity {
   @Column({ nullable: true })
   specialization: string;
 
-  @Column('bigint')
+  @Column({ unique: true })
+  @IsAlphanumeric()
   referral_code: number;
 
   @Column('bigint', { nullable: true })
@@ -26,4 +28,7 @@ export class Profile extends BaseEntity {
 
   @OneToOne(() => User, (user) => user.profile)
   user: User;
+
+  @OneToMany(() => Interest, (interest) => interest.profile)
+  interest: Interest[];
 }
