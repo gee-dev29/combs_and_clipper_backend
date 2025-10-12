@@ -15,7 +15,7 @@
     "statusBarItem.remoteForeground": "#ffffff",
     "titleBar.activeBackground": "#7b1fa2",
     "titleBar.activeForeground": "#ffffff",
-    "titleBar.inactiveBackground": "#7b1fa2",
+    "titleBar.inactiveBackground": "#24132c", 
     "titleBar.inactiveForeground": "#e1bee799"
   },
   "peacock.color": "#e91e63"
