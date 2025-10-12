@@ -1,4 +1,4 @@
-import { IsAlphanumeric, IsNumber, IsOptional } from 'class-validator';
+import { IsAlphanumeric, IsArray, IsNumber, IsOptional } from 'class-validator';
 import { Entity, Column, OneToOne, OneToMany } from 'typeorm';
 import { User } from '../../User/entity/user.entity';
 import { BaseEntity } from '../../Base/base.entity';
