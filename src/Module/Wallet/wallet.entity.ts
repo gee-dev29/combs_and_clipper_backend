@@ -1,11 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Entity, Column, OneToOne } from 'typeorm';
 import { User } from '../User/entity/user.entity';
+import { BaseEntity } from '../Base/base.entity';
 
 @Entity('wallet')
-export class Wallet {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Wallet extends BaseEntity {
   @Column('bigint', { default: 0 })
   balance: number;
 

@@ -1,9 +1,10 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../Base/base.entity';
 import { ServiceEnums } from '../enums/ServiceEnums';
-import { IsArray, IsBoolean, IsNumber } from 'class-validator';
-import { User } from '../../User/entity/user.entity';
+import { IsNumber, IsOptional } from 'class-validator';
 import { Promo } from '../../Promo/entity/promo.entity';
+import { Stylist } from '../../Stylist/entity/stylist.entity';
+import { Notification } from '../../Notification/entity/notification.entity';
 
 @Entity('service')
 export class Service extends BaseEntity {
@@ -23,39 +24,13 @@ export class Service extends BaseEntity {
   @Column({ unique: true })
   slog: string;
 
-  @Column()
-  duration: string;
-
-  @Column()
-  location: string;
-
-  @Column()
-  @IsBoolean()
-  allow_cancelation: boolean;
-
-  @Column()
-  @IsBoolean()
-  allow_reschedule: boolean;
-
-  @Column()
-  @IsBoolean()
-  limit_early_booking: boolean;
-
-  @Column()
-  @IsBoolean()
-  limit_late_booking: boolean;
-
-  @Column()
-  @IsArray()
-  available_hours: [];
-
-  @Column()
-  @IsArray()
-  images: [];
-
-  @ManyToOne(() => User, (user) => user.service)
-  user: User;
-
   @OneToMany(() => Promo, (promo) => promo.service)
-  promo: Promo;
+  promo: Promo[];
+
+  @OneToMany(() => Notification, (notification) => notification.service)
+  @IsOptional()
+  notification?: Notification[];
+
+  @ManyToOne(() => Stylist, (stylist) => stylist.service)
+  stylist: Stylist;
 }
