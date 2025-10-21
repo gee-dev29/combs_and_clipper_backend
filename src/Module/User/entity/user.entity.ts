@@ -33,7 +33,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   phone: string;
 
-  @Column('jsonb')
+  @Column()
   token: object;
 
   @Column()
