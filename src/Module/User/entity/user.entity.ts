@@ -11,10 +11,10 @@ import { Role } from '../../Role/entity/role.entity';
 import { Wallet } from '../../Wallet/wallet.entity';
 import { Profile } from '../../Profile/entity/profile.entity';
 import { BaseEntity } from '../../Base/base.entity';
-import { IsEnum } from 'class-validator';
 import { Shop } from '../../Shop/entity/shop.entity';
 import { Stylist } from '../../Stylist/entity/stylist.entity';
 import { Reviews } from '../../Reviews/entity/reviews.entity';
+import { IsEnum } from 'class-validator';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -33,20 +33,20 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   phone: string;
 
-  @Column()
+  @Column({ type: 'jsonb', nullable: true })
   token: object;
 
-  @Column()
+  @Column({default: UserStatus.PENDING })
   @IsEnum(UserStatus)
   status: UserStatus;
 
-  @Column()
+  @Column({ default: false })
   phone_verified: boolean;
 
-  @Column()
+  @Column({ default: false })
   email_verified: boolean;
 
-  @Column()
+  @Column({ default: false })
   sms_otp: boolean;
 
   @OneToOne(() => Profile, (profile) => profile.user)
