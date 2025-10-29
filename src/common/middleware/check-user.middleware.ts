@@ -7,6 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../../Module/User/entity/user.entity';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class CheckUserMiddleware implements NestMiddleware {
@@ -16,17 +17,18 @@ export class CheckUserMiddleware implements NestMiddleware {
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const userId = req.params.id || req.body.userId;
+    const userIdString = req.params.userId || req.params.id || req.body.userId;
 
-    if (!userId) {
+    if (!isUUID(userIdString)) {
       throw new NoIdFoundException();
     }
-
-    // Check if user exists
-    const user = await this.repository.findOne({ where: { id: userId } });
+    const user = await this.repository.findOne({ 
+      where: { id: userIdString },
+      relations: ['profile', 'role', 'wallet'], 
+    });
 
     if (!user) {
-      throw new UserNotFoundByIdException(userId);
+      throw new UserNotFoundByIdException(userIdString);
     }
     req.user = user;
     next();
